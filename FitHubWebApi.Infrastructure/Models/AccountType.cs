@@ -1,5 +1,4 @@
-﻿using FitHubWebApi.Core.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace FitHubWebApi.Infrastructure.Models
 {
@@ -7,12 +6,12 @@ namespace FitHubWebApi.Infrastructure.Models
     {
         public AccountType()
         {
-            Users = new HashSet<Users>();
+            User = new HashSet<User>();
         }
 
-        public int Id { get; set; }
         public string Type { get; set; }
+        public int Id { get; set; }
 
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }

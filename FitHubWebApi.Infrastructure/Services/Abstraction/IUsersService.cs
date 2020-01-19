@@ -6,5 +6,6 @@ namespace FitHubWebApi.Infrastructure.Services.Abstraction
     public interface IUsersService : IService<User>
     {
         bool IsPasswordValid(string login, string password);
+        Task<User> GetByEmail(string email);
     }
 }

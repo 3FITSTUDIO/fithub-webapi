@@ -15,14 +15,12 @@ namespace FitHubWebApi.Infrastructure.DbContext
         }
 
         public virtual DbSet<AccountType> AccountType { get; set; }
-        public virtual DbSet<Entries> Entries { get; set; }
-        public virtual DbSet<EntryType> EntryType { get; set; }
         public virtual DbSet<Height> Height { get; set; }
         public virtual DbSet<Kcal> Kcal { get; set; }
-        public virtual DbSet<Log> Logs { get; set; }
-        public virtual DbSet<Measurement> Measurement { get; set; }
-        public virtual DbSet<Password> Passwords { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Steps> Steps { get; set; }
+        public virtual DbSet<Log> Log { get; set; }
+        public virtual DbSet<Password> Password { get; set; }
+        public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Weight> Weight { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,71 +34,72 @@ namespace FitHubWebApi.Infrastructure.DbContext
 
             modelBuilder.Entity<AccountType>(entity =>
             {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.Type)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Entries>(entity =>
-            {
-                entity.HasOne(d => d.EntryType)
-                    .WithMany(p => p.Entries)
-                    .HasForeignKey(d => d.EntryTypeId)
-                    .HasConstraintName("FK__Entries__EntryTy__440B1D61");
-
-                entity.HasOne(d => d.Log)
-                    .WithMany(p => p.Entries)
-                    .HasForeignKey(d => d.LogId)
-                    .HasConstraintName("FK__Entries__LogId__4316F928");
-            });
-
-            modelBuilder.Entity<EntryType>(entity =>
-            {
-                entity.Property(e => e.Type)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Height>(entity =>
             {
-                entity.HasOne(d => d.Entry)
-                    .WithMany(p => p.Height)
-                    .HasForeignKey(d => d.EntryId)
-                    .HasConstraintName("FK__Height__EntryId__46E78A0C");
+                entity.HasKey(e => e.UserId)
+                    .HasName("PK_HEIGHT");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("userId")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Value).HasColumnName("value");
+
+                entity.HasOne(d => d.User)
+                    .WithOne(p => p.Height)
+                    .HasForeignKey<Height>(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Height_fk0");
             });
 
             modelBuilder.Entity<Kcal>(entity =>
             {
-                entity.HasOne(d => d.Entry)
-                    .WithMany(p => p.Kcal)
-                    .HasForeignKey(d => d.EntryId)
-                    .HasConstraintName("FK__Kcal__EntryId__4F7CD00D");
+                entity.HasKey(e => e.LogId)
+                    .HasName("PK_KCAL");
+
+                entity.Property(e => e.LogId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Log)
+                    .WithOne(p => p.Kcal)
+                    .HasForeignKey<Kcal>(d => d.LogId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Kcal_fk0");
+            });
+
+            modelBuilder.Entity<Steps>(entity =>
+            {
+                entity.HasKey(e => e.LogId)
+                    .HasName("PK_STEPS");
+
+                entity.Property(e => e.LogId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Log)
+                    .WithOne(p => p.Steps)
+                    .HasForeignKey<Steps>(d => d.LogId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Steps_fk0");
             });
 
             modelBuilder.Entity<Log>(entity =>
             {
-                entity.Property(e => e.Created).HasColumnType("datetime");
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Logs)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Logs__UserId__403A8C7D");
-            });
+                entity.Property(e => e.CreatedAt).HasColumnType("date");
 
-            modelBuilder.Entity<Measurement>(entity =>
-            {
-                entity.HasOne(d => d.Entry)
-                    .WithMany(p => p.Measurement)
-                    .HasForeignKey(d => d.EntryId)
-                    .HasConstraintName("FK__Measureme__Entry__4CA06362");
+                entity.Property(e => e.UserId).HasColumnType("date");
             });
 
             modelBuilder.Entity<Password>(entity =>
             {
                 entity.HasKey(e => e.UserId)
-                    .HasName("PK__Password__1788CC4CE9E307DC");
+                    .HasName("PK_PASSWORD");
 
                 entity.Property(e => e.UserId).ValueGeneratedNever();
 
@@ -108,43 +107,56 @@ namespace FitHubWebApi.Infrastructure.DbContext
                     .WithOne(p => p.Password)
                     .HasForeignKey<Password>(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Passwords__UserI__3D5E1FD2");
+                    .HasConstraintName("Password_fk0");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasIndex(e => e.Email)
+                    .HasName("UQ__User__A9D1053460CBCAE1")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Login)
+                    .HasName("UQ__User__5E55825B9D5067A8")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Login)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Surname)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.HasOne(d => d.AccountType)
-                    .WithMany(p => p.Users)
+                    .WithMany(p => p.User)
                     .HasForeignKey(d => d.AccountTypeId)
-                    .HasConstraintName("FK__Users__AccountTy__3A81B327");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("User_fk0");
             });
 
             modelBuilder.Entity<Weight>(entity =>
             {
-                entity.HasOne(d => d.Entry)
-                    .WithMany(p => p.Weight)
-                    .HasForeignKey(d => d.EntryId)
-                    .HasConstraintName("FK__Weight__EntryId__49C3F6B7");
+                entity.HasKey(e => e.LogId)
+                    .HasName("PK_WEIGHT");
+
+                entity.Property(e => e.LogId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Log)
+                    .WithOne(p => p.Weight)
+                    .HasForeignKey<Weight>(d => d.LogId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Weight_fk0");
             });
 
         }

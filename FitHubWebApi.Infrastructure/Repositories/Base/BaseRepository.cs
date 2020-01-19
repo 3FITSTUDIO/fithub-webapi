@@ -27,7 +27,7 @@ namespace FitHubWebApi.Infrastructure.Repositories.Base
         {
             return Table.AsQueryable();
         }
-        public virtual async Task<T> GetById(object id)
+        public virtual async Task<T> GetById(int id)
         {
             return await Table.FindAsync(id);
         }

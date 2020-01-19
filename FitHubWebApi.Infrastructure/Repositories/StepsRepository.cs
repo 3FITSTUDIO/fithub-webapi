@@ -5,9 +5,9 @@ using FitHubWebApi.Infrastructure.Repositories.Base;
 
 namespace FitHubWebApi.Infrastructure.Repositories
 {
-    public class MeasurementRepository : BaseRepository<Measurement>, IMeasurementRepository
+    public class StepsRepository : BaseRepository<Steps>, IStepsRepository
     {
-        public MeasurementRepository(FitHubWebApiContext context) : base(context)
+        public StepsRepository(FitHubWebApiContext context) : base(context)
         {
         }
     }

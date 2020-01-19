@@ -2,9 +2,9 @@
 using FitHubWebApi.Core.Repositories;
 using FitHubWebApi.Infrastructure.DbContext;
 using FitHubWebApi.Infrastructure.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace FitHubWebApi.Infrastructure.Repositories
 {
@@ -24,11 +24,14 @@ namespace FitHubWebApi.Infrastructure.Repositories
             return hashCode.Password.HashValue;
         }
 
+        public async Task<User> GetByEmail(string email)
+        {
+            return await Table.FirstOrDefaultAsync(e => e.Email.Equals(email));
+        }
+
         public async Task<User> GetByLogin(string login)
         {
-            var userByLogin = await Table.FirstOrDefaultAsync(l => l.Login.Equals(login));
-
-            return userByLogin;
+            return await Table.FirstOrDefaultAsync(l => l.Login.Equals(login));
         }
     }
 }

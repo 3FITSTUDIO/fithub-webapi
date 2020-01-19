@@ -2,10 +2,9 @@
 {
     public class Kcal
     {
-        public int Id { get; set; }
-        public int? EntryId { get; set; }
-        public int Val { get; set; }
+        public int Value { get; set; }
+        public int LogId { get; set; }
 
-        public virtual Entries Entry { get; set; }
+        public virtual Log Log { get; set; }
     }
 }

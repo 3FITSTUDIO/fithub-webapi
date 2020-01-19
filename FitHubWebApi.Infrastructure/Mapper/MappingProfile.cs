@@ -8,8 +8,8 @@ namespace FitHubWebApi.Infrastructure.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<Db.Users, Dom.User>();
-            CreateMap<Dom.User, Db.Users>();
+            CreateMap<Db.User, Dom.User>();
+            CreateMap<Dom.User, Db.User>();
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using FitHubWebApi.Infrastructure.Services.Abstraction;
+﻿using FitHubWebApi.Core.Domain;
+using FitHubWebApi.Infrastructure.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using FitHubWebApi.Core.Domain;
-using FitHubWebApi.Infrastructure.DbContext;
 
 namespace FitHubWebAPI.Controllers
 {

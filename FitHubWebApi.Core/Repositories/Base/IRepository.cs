@@ -9,6 +9,6 @@ namespace FitHubWebApi.Core.Repositories.Base
         Task Add(T entity);
         Task Update(T entity);
         Task Remove(T entity);
-        Task<T> GetById(object id);
+        Task<T> GetById(int id);
     }
 }

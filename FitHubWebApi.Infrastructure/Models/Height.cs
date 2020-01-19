@@ -2,10 +2,9 @@
 {
     public class Height
     {
-        public int Id { get; set; }
-        public int? EntryId { get; set; }
-        public int Val { get; set; }
+        public int Value { get; set; }
+        public int UserId { get; set; }
 
-        public virtual Entries Entry { get; set; }
+        public virtual User User { get; set; }
     }
 }

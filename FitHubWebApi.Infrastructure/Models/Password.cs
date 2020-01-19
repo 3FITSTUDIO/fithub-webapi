@@ -1,4 +1,4 @@
-﻿namespace FitHubWebApi.Core.Domain
+﻿namespace FitHubWebApi.Infrastructure.Models
 {
     public class Password
     {

@@ -76,7 +76,7 @@ namespace FitHubWebApi.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Entries",
+                name: "Entry",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -117,7 +117,7 @@ namespace FitHubWebApi.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Height_Entries_EntryId",
                         column: x => x.EntryId,
-                        principalTable: "Entries",
+                        principalTable: "Entry",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -137,7 +137,7 @@ namespace FitHubWebApi.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Kcal_Entries_EntryId",
                         column: x => x.EntryId,
-                        principalTable: "Entries",
+                        principalTable: "Entry",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -164,7 +164,7 @@ namespace FitHubWebApi.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Measurements_Entries_EntryId",
                         column: x => x.EntryId,
-                        principalTable: "Entries",
+                        principalTable: "Entry",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -184,19 +184,19 @@ namespace FitHubWebApi.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Weight_Entries_EntryId",
                         column: x => x.EntryId,
-                        principalTable: "Entries",
+                        principalTable: "Entry",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Entries_EntryTypeId",
-                table: "Entries",
+                table: "Entry",
                 column: "EntryTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Entries_LogId",
-                table: "Entries",
+                table: "Entry",
                 column: "LogId");
 
             migrationBuilder.CreateIndex(
@@ -249,7 +249,7 @@ namespace FitHubWebApi.Infrastructure.Migrations
                 name: "Weight");
 
             migrationBuilder.DropTable(
-                name: "Entries");
+                name: "Entry");
 
             migrationBuilder.DropTable(
                 name: "EntryType");

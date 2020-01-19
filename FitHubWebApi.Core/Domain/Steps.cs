@@ -1,8 +1,8 @@
 ﻿namespace FitHubWebApi.Core.Domain
 {
-    public class Weight
+    public class Steps
     {
-        public int Vale { get; set; }
+        public int Value { get; set; }
         public int LogId { get; set; }
 
         public virtual Log Log { get; set; }

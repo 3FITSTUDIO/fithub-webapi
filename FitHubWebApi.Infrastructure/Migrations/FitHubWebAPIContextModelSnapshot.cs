@@ -54,7 +54,7 @@ namespace FitHubWebApi.Infrastructure.Migrations
 
                     b.HasIndex("LogId");
 
-                    b.ToTable("Entries");
+                    b.ToTable("Entry");
                 });
 
             modelBuilder.Entity("FitHubWebApi.Infrastructure.Models.EntryType", b =>
@@ -230,7 +230,7 @@ namespace FitHubWebApi.Infrastructure.Migrations
             modelBuilder.Entity("FitHubWebApi.Infrastructure.Models.Entry", b =>
                 {
                     b.HasOne("FitHubWebApi.Infrastructure.Models.EntryType", "EntryType")
-                        .WithMany("Entries")
+                        .WithMany("Entry")
                         .HasForeignKey("EntryTypeId");
 
                     b.HasOne("FitHubWebApi.Infrastructure.Models.Log", "Log")

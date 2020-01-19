@@ -6,12 +6,12 @@ namespace FitHubWebApi.Core.Domain
     {
         public AccountType()
         {
-            Users = new HashSet<User>();
+            User = new HashSet<User>();
         }
 
-        public int Id { get; set; }
         public string Type { get; set; }
+        public int Id { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }
