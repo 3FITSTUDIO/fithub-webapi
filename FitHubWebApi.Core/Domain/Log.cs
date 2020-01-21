@@ -1,10 +1,10 @@
 ﻿using System;
+using FitHubWebApi.Core.Domain.Base;
 
 namespace FitHubWebApi.Core.Domain
 {
-    public  class Log
+    public class Log : Entity<int>
     {
-        public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UserId { get; set; }
 

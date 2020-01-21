@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using FitHubWebApi.Core.Domain;
+using FitHubWebApi.Core.DTO;
 
 namespace FitHubWebApi.Infrastructure.Services.Abstraction
 {
-    public interface IUsersService : IService<User>
+    public interface IUsersService : IService<UserDTO>
     {
-        bool IsPasswordValid(string login, string password);
-        Task<User> GetByEmail(string email);
+        Task<bool> IsPasswordValid(string login, string password);
+        Task<UserDTO> GetByEmail(string email);
     }
 }

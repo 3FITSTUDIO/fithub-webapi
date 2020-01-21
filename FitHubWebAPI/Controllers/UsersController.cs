@@ -1,4 +1,4 @@
-﻿using FitHubWebApi.Core.Domain;
+﻿using FitHubWebApi.Core.DTO;
 using FitHubWebApi.Infrastructure.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -17,25 +17,25 @@ namespace FitHubWebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task Create([FromBody] User user)
+        public async Task Create([FromBody] UserDTO user)
         {
             await _usersService.Add(user);
         }
 
         [HttpGet("{id}")]
-        public async Task<User> Get(int id)
+        public async Task<UserDTO> Get(int id)
         {
             return await _usersService.GetById(id);
         }
 
         [HttpGet("{login}, {password}")]
-        public bool IsPasswordValid(string login, string password)
+        public async Task<bool> IsPasswordValid(string login, string password)
         {
-            return _usersService.IsPasswordValid(login, password);
+            return await _usersService.IsPasswordValid(login, password);
         }
 
         [HttpPut("{id}")]
-        public async Task Update([FromBody] User user)
+        public async Task Update([FromBody] UserDTO user)
         {
             await _usersService.Update(user);
         }

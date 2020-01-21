@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using FitHubWebApi.Core.Domain.Base;
 
 namespace FitHubWebApi.Core.Domain
 {
-    public class AccountType
+    public class AccountType : Entity<int>
     {
         public AccountType()
         {
@@ -10,7 +11,6 @@ namespace FitHubWebApi.Core.Domain
         }
 
         public string Type { get; set; }
-        public int Id { get; set; }
 
         public virtual ICollection<User> User { get; set; }
     }

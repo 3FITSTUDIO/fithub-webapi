@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace FitHubWebApi.Infrastructure.Models
 {
@@ -11,5 +10,6 @@ namespace FitHubWebApi.Infrastructure.Models
 
         public virtual Kcal Kcal { get; set; }
         public virtual Weight Weight { get; set; }
+        public virtual Steps Steps { get; set; }
     }
 }

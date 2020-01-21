@@ -1,4 +1,6 @@
-﻿using FitHubWebApi.Core.Domain;
+﻿using AutoMapper;
+using FitHubWebApi.Core.Domain;
+using FitHubWebApi.Core.DTO;
 using FitHubWebApi.Core.Repositories;
 using FitHubWebApi.Infrastructure.Services.Abstraction;
 using System.Threading.Tasks;
@@ -8,41 +10,59 @@ namespace FitHubWebApi.Infrastructure.Services.Implementation
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _usersRepository;
-        public UsersService(IUsersRepository usersRepository)
+        private readonly IMapper _mapper;
+        public UsersService(IUsersRepository usersRepository, IMapper mapper)
         {
             _usersRepository = usersRepository;
+            _mapper = mapper;
         }
 
-        public bool IsPasswordValid(string login, string password)
+       
+        //---CREATE
+        public async Task Add(UserDTO userDto)
         {
-            var hashCode = _usersRepository.GetUsersPasswordHashCode(login);
-            return (password.GetHashCode() == hashCode.Result);
-        }
-
-        public async Task Add(User user)
-        {
+            var user = _mapper.Map<User>(userDto);
             await _usersRepository.Add(user);
         }
 
-        public async Task<User> GetByEmail(string email)
+        //---READ
+        public async Task<UserDTO> GetByEmail(string email)
         {
-            return await _usersRepository.GetByEmail(email);
+            var user = await _usersRepository.GetByEmail(email);
+            var userDto = _mapper.Map<UserDTO>(user);
+            return userDto;
         }
 
-        public async Task<User> GetById(int id)
+        public async Task<UserDTO> GetById(int id)
         {
-            return await _usersRepository.GetById(id); 
+            var user = await _usersRepository.GetById(id);
+            var userDto = _mapper.Map<UserDTO>(user);
+
+            return userDto;
         }
 
-        public async Task Update(User user)
+        //---UPDATE
+        public async Task Update(UserDTO userDto)
         {
+            var user = _mapper.Map<User>(userDto);
             await _usersRepository.Update(user);
         }
 
+
+        //---DELETE
         public async Task Delete(int id)
         {
             var domainUser = await _usersRepository.GetById(id);
             await _usersRepository.Remove(domainUser);
+        }
+
+        //---UTILITIES
+        public async Task<bool> IsPasswordValid(string login, string password)
+        {
+            var user = await _usersRepository.GetByLogin(login);
+            var hashCode = user.Password;
+
+            return (password.GetHashCode() == hashCode);
         }
     }
 }

@@ -15,11 +15,9 @@ namespace FitHubWebApi.Infrastructure.DbContext
         }
 
         public virtual DbSet<AccountType> AccountType { get; set; }
-        public virtual DbSet<Height> Height { get; set; }
         public virtual DbSet<Kcal> Kcal { get; set; }
         public virtual DbSet<Steps> Steps { get; set; }
         public virtual DbSet<Log> Log { get; set; }
-        public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Weight> Weight { get; set; }
 
@@ -34,29 +32,13 @@ namespace FitHubWebApi.Infrastructure.DbContext
 
             modelBuilder.Entity<AccountType>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasDefaultValue(1);
 
                 entity.Property(e => e.Type)
                     .IsRequired()
                     .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Height>(entity =>
-            {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK_HEIGHT");
-
-                entity.Property(e => e.UserId)
-                    .HasColumnName("userId")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Value).HasColumnName("value");
-
-                entity.HasOne(d => d.User)
-                    .WithOne(p => p.Height)
-                    .HasForeignKey<Height>(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Height_fk0");
             });
 
             modelBuilder.Entity<Kcal>(entity =>
@@ -96,20 +78,6 @@ namespace FitHubWebApi.Infrastructure.DbContext
                 entity.Property(e => e.UserId).HasColumnType("date");
             });
 
-            modelBuilder.Entity<Password>(entity =>
-            {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK_PASSWORD");
-
-                entity.Property(e => e.UserId).ValueGeneratedNever();
-
-                entity.HasOne(d => d.User)
-                    .WithOne(p => p.Password)
-                    .HasForeignKey<Password>(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Password_fk0");
-            });
-
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.Email)
@@ -137,6 +105,13 @@ namespace FitHubWebApi.Infrastructure.DbContext
                 entity.Property(e => e.Surname)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.Height)
+                    .HasColumnType("integer");
+
+                entity.Property(e => e.Password)
+                    .HasColumnType("integer");
+
 
                 entity.HasOne(d => d.AccountType)
                     .WithMany(p => p.User)

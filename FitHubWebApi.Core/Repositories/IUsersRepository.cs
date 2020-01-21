@@ -7,6 +7,6 @@ namespace FitHubWebApi.Core.Repositories
     public interface IUsersRepository : IRepository<User>
     {
         Task<User> GetByEmail(string email);
-        Task<int> GetUsersPasswordHashCode(string login);
+        Task<User> GetByLogin(string login);
     }
 }

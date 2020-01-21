@@ -8,9 +8,9 @@
         public string Name { get; set; }
         public string Surname { get; set; }
         public int AccountTypeId { get; set; }
+        public int Height { get; set; }
+        public int Password { get; set; }
 
         public virtual AccountType AccountType { get; set; }
-        public virtual Height Height { get; set; }
-        public virtual Password Password { get; set; }
     }
 }

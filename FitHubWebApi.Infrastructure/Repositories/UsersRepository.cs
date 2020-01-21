@@ -3,7 +3,6 @@ using FitHubWebApi.Core.Repositories;
 using FitHubWebApi.Infrastructure.DbContext;
 using FitHubWebApi.Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FitHubWebApi.Infrastructure.Repositories
@@ -12,16 +11,6 @@ namespace FitHubWebApi.Infrastructure.Repositories
     {
         public UsersRepository(FitHubWebApiContext context) : base(context)
         {
-        }
-
-        public async Task<int> GetUsersPasswordHashCode(string login)
-        {
-            var hashCode = await Table
-                .Include(z => z.Password)
-                .Where(x => x.Login == login)
-                .FirstOrDefaultAsync();
-
-            return hashCode.Password.HashValue;
         }
 
         public async Task<User> GetByEmail(string email)
